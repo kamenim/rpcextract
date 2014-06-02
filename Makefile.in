@@ -1,0 +1,71 @@
+# Makefile for OpenChange
+# Written by Jelmer Vernooij <jelmer@samba.org>, 2005.
+
+CC=@CC@
+CFLAGS=@CFLAGS@ -I. -Wall -fexpensive-optimizations
+PIDL=@PIDL@
+PERL=@PERL@
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+bindir=@bindir@
+datadir=@datadir@
+
+top_builddir=${PWD}
+
+# This value should be determined by configure at some point
+SHLIBEXT=so
+
+LIBS+=@PCAP_LIBS@
+
+# Portability hack...
+CFLAGS+=-Duint_t="unsigned int" 
+
+SRC=parse_options.c\
+    rpcextract.c\
+    protocols/exchange_nsp.c\
+    protocols/exchange_emsmdb.c
+
+all: rpcextract  
+
+install: all 
+	@echo "=============================="
+	@echo "Installing rpcextract"
+	mkdir -p $(DESTDIR)$(bindir)
+	cp rpcextract $(DESTDIR)$(bindir)
+	@echo "rpcextract installed"
+
+uninstall: $(EPLUGINS_UNINSTALL)
+	rm -f $(DESTDIR)$(bindir)/rpcextract
+
+re: clean install
+
+.c.o:
+	@echo "Compiling $<"
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+distclean: clean
+	rm -rf autom4te.cache
+	rm -f Makefile config.status config.log
+
+realdistclean: distclean
+	rm -f rpcextract
+	rm -f configure config.h.in config.h
+	rm -rf bin/
+
+clean:
+	rm -f protocols/*.o
+	rm -f *.o
+	rm -f *~
+	rm -f */*~
+	rm -f */*/*~
+
+rpcextract:
+	$(CC) -o $@ $(SRC) $(LIBS) $(CFLAGS)
+	@echo "Rpcextract compilation Done.."
+
+tags:
+	ctags -R .
+
+Makefile: Makefile.in config.status
+	./config.status

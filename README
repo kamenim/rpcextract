@@ -1,0 +1,61 @@
+rpcextract 0.99
+
+NAME
+     rpcextract -- rpc filter and payload extractor
+
+SYNOPSIS
+     rpcextract -i <pcap file> | -l <device> [-v] [-d <outdir>] [-p <proto_name#1>] [-p <proto_name#2>] ...
+
+DESCRIPTION
+     RPCExtract is a tool that can filter out specific RPC packets from a
+     pcap file or from a live packet capture session, based on an interface
+     name. The payload found in the selected RPC packets is then extracted
+     to separate files for later analyze.
+
+     It is based only on the pcap library, "libpcap", since last version.
+     (http://sourceforge.net/projects/libpcap/)
+
+     RPCExtract was initially written for the OpenChange project (www.openchange.org).
+
+     The options are as follows:
+
+     -i      
+	     The pcap file to treat. Incompatible with -l.
+
+     -l device
+             Specify a network device, on which packets while be captured (in non promiscous
+	     mode) and treated.
+
+     -v      Verbose option
+
+     -d outdir
+	     Directory where payloads files while be stored. If this one doesn't, it will be
+  	     created.
+
+     -p proto_name#N
+	     Add an RPC Over protocol to filter. Static protocols managed in this version are
+	     "Nspi" and "Mapi" (EMSMDB).
+
+     Command Line Exemples :
+
+     *	    ./rpcextract -i ~/PCAP -d res1c -p Mapi -p Nspi
+            
+	    Will extract from ~/PCAP file, all Mapi and Nspi packets, and will store paylods files in
+            the ./res1c directory.
+
+     *	    ./rpcextract -v -l eth0 -d live
+
+	    Will store every Mapi or Nspi packet that will be listened on the eth0 interface, payload
+	    file in the ./live directory.
+
+     *	    ./rpcextract -v -i ~/PCAP -p Nspi
+
+	    Will store every Nspi packet payload file in current directory.
+
+     Payloads filename is formatted as follows:
+
+     {PACKET NUMBER}_{PACKET TYPE (IN/OUT)}_{OVER RPC PORTOCOL NAME (NSPI/MAPI)}_{PROTOCOL'S FUNCTION NAME}
+
+AUTHOR
+     *	    Jérome MEDEGAN <j.medegan@openchange.org>
+            Feel free to contact for any questions.
