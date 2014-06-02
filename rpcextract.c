@@ -152,7 +152,7 @@ void				rip_file(int packet_num, char packet_type, char *proto, u_char *tcp)
 		opstr = GetNspiOpStr(*opnum);
 	if (strcmp(proto, "Mapi") == 0)
 		opstr = GetMapiOpStr(*opnum);
-	asprintf(&filename, "%d_%s_%s_%s", packet_num, (packet_type == RPC_REQ)?"in":"out", proto, opstr);
+	asprintf(&filename, "%05d_%s_%s_%s", packet_num, (packet_type == RPC_REQ)?"in":"out", proto, opstr);
 	if (opts.verbose)
 		printf("Extracting data into file %s (size = %d bytes)\n", filename, *alloch);
 	if (opts.outdir)
