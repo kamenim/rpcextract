@@ -32,6 +32,8 @@ sector_t		MapiSector[] =
 	{ 7, "EcRGetDCName"},
 	{ 8, "EcRNetGetDCName"},
 	{ 9, "EcDoRpcExt"},
+	{ 10, "EcDoConnectEx"},
+	{ 11, "EcDoRpcExt2"},
 	{0, NULL}
 };
 
