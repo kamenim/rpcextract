@@ -34,6 +34,9 @@ sector_t		MapiSector[] =
 	{ 9, "EcDoRpcExt"},
 	{ 10, "EcDoConnectEx"},
 	{ 11, "EcDoRpcExt2"},
+	{ 12, "EcUnknown0xC"},
+	{ 13, "EcUnknown0xD"},
+	{ 14, "EcDoAsyncConnectEx"},
 	{0, NULL}
 };
 
